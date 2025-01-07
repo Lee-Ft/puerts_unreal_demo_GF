@@ -6,6 +6,7 @@ let obj = new UE.MainObject();
 //调试器通过websocket发送断点信息，可能断点生效前脚本已经执行完备，可以通过debugger语句来主动触发断点
 //debugger;
 
+blueprint.load(UE.TestGF.TestGFActor.TestGFActor_C);
 //成员访问
 console.log("------------------------0----------------------------");
 console.log("before set", obj.MyString)

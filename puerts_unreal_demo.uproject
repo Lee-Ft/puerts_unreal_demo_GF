@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.24",
+	"EngineAssociation": "{51F009A3-4130-E967-C3E6-569D1C8A3ABC}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -19,6 +19,14 @@
 	"Plugins": [
 		{
 			"Name": "Puerts",
+			"Enabled": true
+		},
+		{
+			"Name": "GameFeatures",
+			"Enabled": true
+		},
+		{
+			"Name": "TestGF",
 			"Enabled": true
 		}
 	]

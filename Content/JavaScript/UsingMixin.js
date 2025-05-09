@@ -24,6 +24,9 @@ class Loggable {
         console.log(`Ts Add(${x}, ${y})`);
         return x + y;
     }
+    ReceiveEndPlay(EndPlayReason) {
+        console.log("may crash here");
+    }
 }
 const MixinTestWithMixin = puerts_1.blueprint.mixin(MixinTest, Loggable);
 let gameInstance = puerts_1.argv.getByName("GameInstance");
@@ -47,10 +50,17 @@ class DerivedClassMixin extends MixinSuperTestBasePlaceHold {
         console.log("i am ts mixin");
         super.Foo();
     }
+    ReceiveBeginPlay() {
+        console.log("may crash here");
+    }
+    ReceiveEndPlay(EndPlayReason) {
+        console.log("may crash here");
+    }
 }
 const MixinSuperTestDerivedWithMixin = puerts_1.blueprint.mixin(MixinSuperTestDerived, DerivedClassMixin);
 let mixinActor = UE.GameplayStatics.BeginDeferredActorSpawnFromClass(gameInstance, MixinSuperTestDerivedWithMixin.StaticClass(), undefined, UE.ESpawnActorCollisionHandlingMethod.Undefined, undefined);
 UE.GameplayStatics.FinishSpawningActor(mixinActor, undefined);
+mixinActor.K2_DestroyActor();
 //-----------------------------------------------------------------
 //原生类mixin演示
 //-----------------------------------------------------------------

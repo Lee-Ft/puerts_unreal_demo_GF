@@ -31,6 +31,9 @@ class Loggable {
         console.log(`Ts Add(${x}, ${y})`)
         return x + y;
     }
+    ReceiveEndPlay(EndPlayReason: UE.EEndPlayReason): void {
+        console.log("may crash here");
+    }
 
     //mixin建议只包含函数
     //如果mixin如果包括纯脚本字段，有两种方式（二选一）
@@ -71,11 +74,19 @@ class DerivedClassMixin extends MixinSuperTestBasePlaceHold {
         console.log("i am ts mixin");
         super.Foo();
     }
+    ReceiveBeginPlay(): void {
+        console.log("may crash here");
+    }
+    ReceiveEndPlay(EndPlayReason: UE.EEndPlayReason): void {
+        console.log("may crash here");
+    }
+    
 }
 
 const MixinSuperTestDerivedWithMixin = blueprint.mixin(MixinSuperTestDerived, DerivedClassMixin);
 let mixinActor =  UE.GameplayStatics.BeginDeferredActorSpawnFromClass(gameInstance, MixinSuperTestDerivedWithMixin.StaticClass(), undefined, UE.ESpawnActorCollisionHandlingMethod.Undefined, undefined);
 UE.GameplayStatics.FinishSpawningActor(mixinActor, undefined);
+mixinActor.K2_DestroyActor();
 
 
 //-----------------------------------------------------------------

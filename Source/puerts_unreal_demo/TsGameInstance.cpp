@@ -2,6 +2,8 @@
 
 
 #include "TsGameInstance.h"
+#include "JsObject.h"
+#include "UEDataBinding.hpp"
 
 void UTsGameInstance::Init()
 {
@@ -16,11 +18,39 @@ void UTsGameInstance::OnStart()
     //GameScript->WaitDebugger();
     TArray<TPair<FString, UObject*>> Arguments;
     Arguments.Add(TPair<FString, UObject*>(TEXT("GameInstance"), this));
-    GameScript->Start("QuickStart", Arguments);
+    GameScript->Start("RetainFunction", Arguments);
+
+    GetWorld()->GetTimerManager().SetTimer(AutoDestroyTimerHandle, FTimerDelegate::CreateUObject(this, &UTsGameInstance::OnAutoDestroy), 10, false);
 }
 
 void UTsGameInstance::Shutdown()
 {
     Super::Shutdown();
     GameScript.Reset();
+    RetainFunction = nullptr;
 }
+
+void UTsGameInstance::OnAutoDestroy()
+{
+    UE_LOG(LogTemp, Log, TEXT("JS Env Released"));
+    GameScript.Reset();
+}
+
+void UTsGameInstance::SetFunc(std::function<void(float)> InFunc)
+{
+    RetainFunction = InFunc;
+}
+
+UsingUClass(UTsGameInstance);
+
+struct AutoRegisterForTsGameInstance
+{
+    AutoRegisterForTsGameInstance()
+    {
+        puerts::DefineClass<UTsGameInstance>()
+            .Method("SetFunc", MakeFunction(&UTsGameInstance::SetFunc))
+            .Register();
+    }
+};
+
+AutoRegisterForTsGameInstance _AutoRegisterForTsGameInstance_;

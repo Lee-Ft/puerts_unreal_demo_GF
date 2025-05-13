@@ -23,7 +23,15 @@ public:
     virtual void OnStart() override;
 
     virtual void Shutdown() override;
+
+	UFUNCTION()
+	void OnAutoDestroy();
 	
+	void SetFunc(std::function<void(float)> InFunc);
 private:
     TSharedPtr<puerts::FJsEnv> GameScript;
+
+	FTimerHandle AutoDestroyTimerHandle;
+
+	std::function<void(float)> RetainFunction;
 };

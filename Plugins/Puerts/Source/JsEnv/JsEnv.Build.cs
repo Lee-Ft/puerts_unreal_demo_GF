@@ -39,7 +39,7 @@ public class JsEnv : ModuleRules
     
     private bool ForceStaticLibInEditor = false;
 
-    private bool ThreadSafe = false;
+    private bool ThreadSafe = true;
 
     private bool FTextAsString = true;
     
